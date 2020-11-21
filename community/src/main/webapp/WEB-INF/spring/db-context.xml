@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- 커넥션풀 DataSource 객체 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/springprjs?useSSL=false&amp;serverTimezone=Asia/Seoul&amp;allowPublicKeyRetrieval=true&amp;useSSL=false"/>
+		<property name="username" value="springPrj" />
+		<property name="password" value="springPrj" />
+		<property name="initialSize" value="0" />
+		<property name="minIdle" value="0" />
+		<property name="maxIdle" value="10" />
+		<property name="maxTotal" value="10" />
+		<property name="maxWaitMillis" value="1000" />
+	</bean>
+	
+	<!-- sqlSessionFactory : mysql 서버와 mybatis 서버 연결해주는 객체 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/myBatis/mapperConfigure.xml" />
+		<property name="mapperLocations" value="classpath:/myBatis/mapper/*.xml" />
+	</bean>
+	
+	<!-- SqlSessionTemplate : 마이바티스에서 SqlSession를 생성하기 위해 SqlSessionFactory 사용  -->
+	<!-- 스프링 트랜잭션 사용, 세션, 커밋하거나 롤백의 세션의 생명주기를 관리, 마이바티스 예외를 스프링의 DataAccessException로 변환하는 작업도 처리-->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- Mapper 인터페이스 스캔 및 Bean 등록 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="me.mykite.spring.mapper.*" />
+		<property name="annotationClass" value="me.mykite.spring.config.annotation.Mapper" />
+	</bean>
+	
+	<bean id="passwordEncoder"
+			class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
+</beans>

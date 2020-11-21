@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.mykite.spring.mapper.user.userMapper">
+	<select id="selectOneInfo" parameterType="String" resultType="UserVO">
+		select * from user_info where userId=#{userId}
+	</select>
+	
+	<select id="selectAllInfo" resultType="UserVO">
+		select * from user_info;
+	</select>
+	
+	<insert id="insertOneInfo" parameterType="UserVO">
+		insert into user_info (userId, userName, userPw, phoneNum, email)
+		values (#{userId}, #{userName}, #{userPw}, #{phoneNum}, #{email})
+	</insert>
+	
+	<insert id="insertAuthInfo" parameterType="String">
+		insert into user_auth values
+		(#{userId}, 'ROLE_USER')
+	</insert>
+	
+	<select id="selectUserAuthOne" parameterType="String" resultType="String">
+		select authority from user_auth where userId=#{value}
+	</select> 
+</mapper>

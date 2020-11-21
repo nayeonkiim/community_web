@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.mykite.spring.mapper.board.boardMapper">
+	
+	<select id="selectTotalCount" resultType="int" parameterType="String">
+		select count(*) from ${value} where bOrder=0
+	</select>
+	
+	<select id="selectTotalCountWithKeyword" resultType="int" parameterType="HashMap">
+		select count(*) from ${boardName} where ${type} like '%${searchValue}%' and bOrder=0
+	</select>
+	
+	<select id="selectMaxbNum" resultType="Integer" parameterType="String">
+		select max(bNum) from ${value}
+	</select>
+	
+	<select id="selectOneArticle" parameterType="HashMap" resultType="BoardVO">
+		select * from ${boardName} where bNum = #{bNum}
+	</select>
+	
+	<select id="selectArticles" parameterType="HashMap" resultType="BoardVO">
+		select * from ${boardName} 
+		where bOrder=0
+		order by bParent desc, bOrder limit ${from}, ${PER_PAGE_NUM}
+	</select>
+	
+	<select id="selectArticlesWithKeyword" parameterType="HashMap" resultType="BoardVO">
+		select * from ${boardName}
+		where bOrder=0 and ${type} like '%${searchValue}%'
+		order by bParent desc, bOrder limit ${from}, ${PER_PAGE_NUM}
+	</select>
+	
+	<insert id="insertNewArticle" parameterType="HashMap">
+		insert into ${boardName} (bId, bTitle, bContent, bParent)
+		values (#{board.bId}, #{board.bTitle}, #{board.bContent}, ${nextBNum})
+	</insert>
+	
+	<insert id="insertReArticle" parameterType="HashMap">
+		insert into ${boardName} (bId, bTitle, bContent, bParent, bIndent, bOrder)
+		values (#{board.bId}, 're', #{board.bContent}, ${board.bParent}, ${board.bIndent}, ${board.bOrder})
+	</insert>
+	
+	<update id="updateChildren" parameterType="HashMap">
+		update ${boardName} set bOrder=bOrder+1
+		where bParent=${board.bParent} and bOrder >= ${board.bOrder}
+	</update>
+	
+	<update id="updateFrequency" parameterType="HashMap">
+		update ${boardName} set bFrequency =  bFrequency+1
+		where bNum=${bNum}
+	</update>
+	
+	<update id="updateArticleInfo" parameterType="HashMap">
+		update ${boardName} set bContent=#{board.bContent}, bTitle=#{board.bTitle}
+		where bNum=${bNum}
+	</update>
+	
+	<select id="replySelect" parameterType="HashMap" resultType="BoardVO">
+		select * from ${boardName} where bParent=${board.bParent} and bNum > ${board.bNum}
+	</select>
+	
+	<delete id="deleteNumArticle" parameterType="HashMap">
+		delete from ${boardName} where bParent=${bParent};
+	</delete>
+</mapper>
+
+
