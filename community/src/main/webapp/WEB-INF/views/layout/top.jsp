@@ -76,12 +76,6 @@
 	      <li class="nav-item active">
 	      	<a class="nav-link" href="/board/board_Main/1">Main Board</a>
 	      </li>
-	      <li class="nav-item active">
-	        <a class="nav-link" href="/board/Greetings/1">Greetings</a>
-	      </li>
-	      <li class="nav-item active">
-	      	<a class="nav-link" href="/board/Notice/1">Notice</a>
-	      </li>
 	    </ul>
 	  </div>
     
