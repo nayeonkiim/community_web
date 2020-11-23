@@ -3,8 +3,9 @@
  블로그 형식의 커뮤니티 웹으로 회원가입, 로그인, 게시판을 포함하고 있다.
  
  DB - MySql <br/>
- Spring framework <br/>
- tomcat server <br/>
+ Spring Framework <br/>
+ Tomcat Server <br/>
+ Bootstrap
 
 # 기능들
  1. User (회원가입, 로그인)
