@@ -26,3 +26,42 @@
   - 답변 등록(ajax) : /board/reply
   - 답변 조회(ajax) : /board/commentList
   - 글 삭제 : /board/{boardName}/deleteArticle/{bNum}
+
+
+## Database
+
+```sql
+create user 'springprj'@'localhost' identified by 'springprj';
+create database springprjs;
+
+grant all privileges on springprjs.* to 'springprj'@'localhost';
+
+create table user_info(
+userId varchar(100) not null primary key,
+userName varchar(50) not null,
+userPw char(60) not null,
+phoneNum char(11) not null,
+email varchar(255) not null
+);
+
+create table user_auth(
+userId varchar(100) not null primary key,
+authority varchar(50) not null,
+foreign key (userId) references user_info(userId)
+);
+
+create table board_main(
+  bNum int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  bParent int NOT NULL,
+  bOrder int NOT NULL default 0,
+  bIndent int NOT NULL default 0,
+  bTitle varchar(50) NOT NULL,
+  bContent varchar(20000) NOT NULL,
+  bId varchar(20) NOT NULL,
+  bRegdate datetime default current_timestamp,
+  bFrequency int default 0
+);
+
+select * from user_auth;
+update user_auth set authority='ROLE_ADMIN' where userId='admin'; 
+```
