@@ -13,8 +13,8 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/springprjs?useSSL=false&amp;serverTimezone=Asia/Seoul&amp;allowPublicKeyRetrieval=true&amp;useSSL=false"/>
-		<property name="username" value="springPrj" />
-		<property name="password" value="springPrj" />
+		<property name="username" value="springprj" />
+		<property name="password" value="springprj" />
 		<property name="initialSize" value="0" />
 		<property name="minIdle" value="0" />
 		<property name="maxIdle" value="10" />

@@ -32,10 +32,6 @@
 			invalidate-session="true"
 			delete-cookies="true" />
 		
-		<s:remember-me 
-			services-ref="persistentTokenBasedRememberMeServices"
-			key="rlaskdus"
-			authentication-success-handler-ref="userLoginSuccessHandler" />
 		
 		<s:csrf/>
 	</s:http>
@@ -48,18 +44,4 @@
 	<bean id="passwordEncoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 	
-	<bean id="jdbcTokenRepositoryImpl"
-			class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl" >
-		<property name="dataSource" ref="dataSource"/>
-	</bean>
-	
-	<bean id="persistentTokenBasedRememberMeServices"
-			class="org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices">
-		<constructor-arg name="key" value="rlaskdus" />
-		<constructor-arg name="userDetailsService" ref="userDetailsServiceCustom" />
-		<constructor-arg name="tokenRepository" ref="jdbcTokenRepositoryImpl" />
-		<property name="cookieName" value="NAYEON_U_REMEMBER" />
-		<property name="parameter" value="remember-me" />
-		<property name="tokenValiditySeconds" value="6000" />
-	</bean>
 </beans>
